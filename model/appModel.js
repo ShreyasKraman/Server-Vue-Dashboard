@@ -22,19 +22,25 @@ Auth.createUser = function createUser(newAuth, result) {
 };
 
 Auth.authUser = function authUser(auth, result) {
-    sql.query("Select password from phoodLogin where emailId = ? ", auth.emailId, function (err, rows) {             
-            if(err) {
-                console.log("error: ", err);
-                result(err, null);
-            }
-            else{
-                console.log(rows[0].password);
-                if(rows[0].password !== auth.password){
-                    result(null,false);
+    try{
+        sql.query("Select password from phoodLogin where emailId = ? ", auth.emailId, 
+            function (err, rows) {             
+                
+                if(err) {
+                    console.log("error: ", err);
+                    return result(err, false);
                 }
-                result(null, true);
-            }
+                else{
+                    if(rows[0].password !== auth.password){
+                        return result(null,false);
+                    }
+                    return result(null, true);
+                }
         }); 
+    }catch(error){
+        console.log(error);
+        return result(error,false);
+    }
 };
 
 module.exports = Auth;

@@ -8,19 +8,20 @@ module.exports = function(app){
         var new_auth = new Auth(req.body);
         
         if(!new_auth.emailId || !new_auth.password){
-            res.status(400).send({ error:true, message: 'Please provide username or password' });
+            return res.status(400).send({ error:true, message: 'Please provide username or password' });
         }else{
 
             Auth.authUser(new_auth,function(err, authFlag) {
-    
+
                 if (err)
-                  res.send(err);
-                
-                if(authFlag){
-                    res.status(200).send({flag:true});
-                }else{
-                    res.status(400).send({error:true, message:"Username or password does not match"});
-                }
+                  return res.status(400).send({error:true,message:"Please try after some time!"});
+
+                    if(authFlag){
+                        return res.status(200).send({flag:true});
+                    }else{
+                        return res.status(400).send({error:true, message:"Username or password does not match"});
+                    }
+
               }); 
 
         }
