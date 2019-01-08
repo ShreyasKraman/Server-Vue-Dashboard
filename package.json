@@ -1,0 +1,25 @@
+{
+  "name": "phoodserver",
+  "version": "1.0.0",
+  "description": "Server for phood challenge",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShreyasKraman/Server-Vue-Dashboard.git"
+  },
+  "author": "Shreyas Kalyanaraman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShreyasKraman/Server-Vue-Dashboard/issues"
+  },
+  "homepage": "https://github.com/ShreyasKraman/Server-Vue-Dashboard",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.4"
+  }
+}
