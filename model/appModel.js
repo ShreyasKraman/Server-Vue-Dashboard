@@ -7,19 +7,6 @@ var Auth = function(auth){
     this.password = auth.password;
 };
 
-Auth.createUser = function createUser(newAuth, result) {    
-    sql.query("INSERT INTO phoodLogin set ?", newAuth, function (err, res) {
-            
-            if(err) {
-                console.log("error: ", err);
-                result(err, null);
-            }
-            else{
-                console.log(res.insertId);
-                result(null, res.insertId);
-            }
-        });   
-};
 
 Auth.authUser = function authUser(auth, result) {
     try{
