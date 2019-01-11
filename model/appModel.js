@@ -1,10 +1,12 @@
 'user strict';
 var sql = require('./db.js');
 
+var bcrypt = require('bcrypt');
+
 //Authorization object constructor
-var Auth = function(auth){
-    this.emailId = auth.emailId;
-    this.password = auth.password;
+var Auth = function(username,password){
+    this.emailId = username;
+    this.password = password;
 };
 
 
@@ -18,15 +20,14 @@ Auth.authUser = function authUser(auth, result) {
                     return result(err, false);
                 }
                 else{
-                    if(rows[0].password !== auth.password){
-                        return result(null,false);
-                    }
-                    return result(null, true);
+                    if(bcrypt.compareSync(auth.password,rows[0].password))
+                        return result(null,true);
+                    return result(null, false);
                 }
         }); 
     }catch(error){
         console.log(error);
-        return result(error,false);
+        return result(error,null);
     }
 };
 

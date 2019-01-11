@@ -5,9 +5,11 @@ module.exports = function(app){
 
     var User = require('../model/userModel');
 
-    app.post('/login',function(req, res) {
+    var uuid = require('uuid/v4');
 
-        var new_auth = new Auth(req.body);
+    app.get('/login', function(req, res) {
+
+        var new_auth = new Auth(req.query.username,req.query.password);
         
         if(!new_auth.emailId || !new_auth.password){
             return res.status(400).send({ error:true, message: 'Please provide username or password' });
@@ -23,17 +25,19 @@ module.exports = function(app){
                     }else{
                         return res.status(400).send({error:true, message:"Username or password does not match"});
                     }
-
               }); 
-
         }
     });
 
     app.post('/register',function(req,res){
 
-        var new_user = new User(req.body);
+        var id = uuid(); 
 
-        if(!new_user.email || !new_user.password || !new_user.name){
+        var new_user = new User(req.body,id);
+
+        console.log(new_user);
+
+        if(!new_user.emailId || !new_user.password || !new_user.name){
             return res.status(400).send({ error:true, message: 'Name, username and password are mandatory' });
         }
 
