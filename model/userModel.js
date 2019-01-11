@@ -26,27 +26,21 @@ User.createUser = function createUser(newUser, result) {
         return result("error",null);
     }
 
-    sql.query("INSERT INTO phoodLogin set ?",user, function (err,res){
-
-        if(err) {
-            console.log("error: ", err);
-            return result(err, null);
-        }
-        else{
-                    
-            sql.query("INSERT INTO phoodUser set ?", phoodUser, function (err, res) {
-            
-                if(err) {
-                    console.log("error: ", err);
-                    return result(err, null);
-                }
-                else{
-                    return result(null, newUser.id);
-                }
-            });                  
-        } 
-
-    } )
+    sql.then(conn => {
+        var rows = conn.query("INSERT INTO phoodLogin set ?",user);
+        if(rows)
+            rows = conn.query("INSERT INTO phoodUser set ?", phoodUser);
+        
+        return rows;
+    }).then(rows => {
+        if(rows)
+            return result(null, newUser.id);
+        else
+            return result(false,null);
+    }).catch(error => {
+            console.log("error: ", error);
+            return result(error, null);
+    })
 };
 
 module.exports = User;

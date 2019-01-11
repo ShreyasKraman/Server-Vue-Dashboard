@@ -12,19 +12,18 @@ var Auth = function(username,password){
 
 Auth.authUser = function authUser(auth, result) {
     try{
-        sql.query("Select password from phoodLogin where emailId = ? ", auth.emailId, 
-            function (err, rows) {             
-                
-                if(err) {
-                    console.log("error: ", err);
-                    return result(err, false);
-                }
-                else{
-                    if(bcrypt.compareSync(auth.password,rows[0].password))
-                        return result(null,true);
-                    return result(null, false);
-                }
-        }); 
+        sql.then(conn => {
+            var rows = conn.query("Select password from phoodLogin where emailId = ? ",auth.emailId);
+            // conn.end();
+            return rows;
+        }).then(rows => {             
+            if(bcrypt.compareSync(auth.password,rows[0].password))
+                return result(null,true);
+            return result(null, false);
+        }).catch(error => {
+                console.log(error);
+                return result(error,null);
+        });
     }catch(error){
         console.log(error);
         return result(error,null);

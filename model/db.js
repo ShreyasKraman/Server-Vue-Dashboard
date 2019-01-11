@@ -1,11 +1,11 @@
 'use strict';
 
-var mysql = require('mysql');
+var mysql = require('promise-mysql');
 
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'admin',
+    user: '',
+    password: '',
     database: 'phood'
 });
 
